@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Item(models.Model):
     name = models.CharField(max_length=200)
@@ -14,16 +15,14 @@ class Review(models.Model):
     comment = models.CharField(max_length=500)
     location = models.CharField(max_length=500)
     pub_date = models.DateTimeField('date published')
-	#user = models.ForeignKey(Users)
+    user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
-    def __unicode__(self):
-        return self.rating
+    
 	
 class Bookmark(models.Model):
-	#user = models.ForeignKey(Users)
+    user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
-    def __unicode__(self):
-        return self.item
+    
 	
 
 
