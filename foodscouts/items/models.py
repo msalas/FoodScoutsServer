@@ -7,8 +7,6 @@ class Item(models.Model):
     pub_date = models.DateTimeField('date published')
     def __unicode__(self):
         return self.name
-    def average_rating(self):
-        return 10
 
 class Review(models.Model):
     rating = models.IntegerField()
@@ -17,11 +15,11 @@ class Review(models.Model):
     pub_date = models.DateTimeField('date published')
     user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
-    
-	
+
 class Bookmark(models.Model):
     user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
+
     
 	
 
