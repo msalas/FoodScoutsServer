@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     # Examples:
      url(r'^$', 'items.views.items'),
      #url(r'^foodscouts/', include('foodscouts.foo.urls')),
-	 url(r'^recommendations/$', 'items.views.recommendations'),
+	 url(r'^my_recommendations/(?P<user_id>\d+)/$', 'items.views.recommendations'),
 	 url(r'^my_reviews/(?P<user_id>\d+)/$', 'items.views.my_reviews'),
 	 url(r'^my_bookmarks/(?P<user_id>\d+)/$', 'items.views.my_bookmarks'),
 	 url(r'^reviews/(?P<item_id>\d+)/$', 'items.views.reviews'),
