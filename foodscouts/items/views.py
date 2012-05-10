@@ -2,10 +2,10 @@ from django.http import HttpResponse
 from django.core import serializers
 from items.models import *
 from django.db.models import Avg
-
+from django.db.models import Q
 
 def recommendations(request,user_id):
-    data = serializers.serialize('json', Item.objects.annotate(average=Avg('review__rating')).exclude(review__user=user_id).exclude(average__lt=3),indent=4)
+    data = serializers.serialize('json', Item.objects.annotate(average=Avg('review__rating')).exclude(review__user=user_id).filter(Q(average__gt=3) | Q(review__isnull=True)).order_by('-average'),indent=4)
     response = HttpResponse(data, mimetype='application/json')
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -23,7 +23,7 @@ def my_reviews(request,user_id):
     return response
 
 def my_bookmarks(request,user_id):
-    data = serializers.serialize('json', Bookmark.objects.filter(user=user_id),indent=4,relations=('item'))
+    data = serializers.serialize('json', Bookmark.objects.filter(user=user_id).exclude(item__review__user=user_id),indent=4,relations=('item'))
     response = HttpResponse(data, mimetype='application/json')
     response['Access-Control-Allow-Origin'] = '*'
     return response
