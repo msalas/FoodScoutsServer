@@ -17,19 +17,19 @@ def items(request):
 	    return response
 
 def my_reviews(request,user_id):
-    data = serializers.serialize('json', Review.objects.filter(user=user_id),indent=4,relations=('item'))
+    data = serializers.serialize('json', Review.objects.filter(user=user_id).order_by('-pub_date'),indent=4,relations=('item'))
     response = HttpResponse(data, mimetype='application/json')
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
 def my_bookmarks(request,user_id):
-    data = serializers.serialize('json', Bookmark.objects.filter(user=user_id).exclude(item__review__user=user_id),indent=4,relations=('item'))
+    data = serializers.serialize('json', Bookmark.objects.filter(user=user_id).exclude(item__review__user=user_id).order_by('-id'),indent=4,relations=('item'))
     response = HttpResponse(data, mimetype='application/json')
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
 def reviews(request,item_id):
-    data = serializers.serialize('json', Review.objects.filter(item=item_id),indent=4,relations={'user':{'fields':('username')}})
+    data = serializers.serialize('json', Review.objects.filter(item=item_id).order_by('-pub_date'),indent=4,relations={'user':{'fields':('username')}})
     response = HttpResponse(data, mimetype='application/json')
     response['Access-Control-Allow-Origin'] = '*'
     return response
